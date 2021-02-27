@@ -9,9 +9,7 @@ import Foundation
 import Firebase
 import FirebaseAuth
 
-final class UserService {
-    static let shared = UserService()
-    
+final class UserService {    
     private let firestoreService = FirestoreService()
     private let sessionService = SessionService()
     private(set) var user: User? = nil
@@ -72,14 +70,14 @@ extension UserService {
 extension UserService {
     func addCity(_ city: String) {
         guard let user = user else { return }
-        guard !user.cities.map({ $0.lowercased() }).contains(city.lowercased()) else { return }
+        guard !user.cities.map({ $0 }).contains(city) else { return }
         user.addCity(city)
         firestoreService.updateCities(id: user.id, cities: user.cities)
     }
     
     func removeCity(_ city: String) {
         guard let user = user else { return }
-        guard user.cities.map({ $0.lowercased() }).contains(city.lowercased()) else { return }
+        guard user.cities.map({ $0 }).contains(city) else { return }
         user.removeCity(city)
         firestoreService.updateCities(id: user.id, cities: user.cities)
     }

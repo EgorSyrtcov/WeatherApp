@@ -16,8 +16,8 @@ final class SessionService {
     }
 
     func save(credential: Credential) {
-        let _ = save(key: StorageKey.email.rawValue, data: Data(from: credential.email))
-        let _ = save(key: StorageKey.password.rawValue, data: Data(from: credential.password))
+        let _ = save(key: StorageKey.email.rawValue, data: credential.email.data(using: .utf8)!)
+        let _ = save(key: StorageKey.password.rawValue, data: credential.password.data(using: .utf8)!)
     }
     
     func clearCredential() {
@@ -28,8 +28,8 @@ final class SessionService {
     func readCredential() -> Credential? {
         guard let emailData = load(key: StorageKey.email.rawValue),
               let passwordData = load(key: StorageKey.password.rawValue) else { return nil }
-        let email = emailData.to(type: String.self)
-        let password = passwordData.to(type: String.self)
+        guard let email = String(data: emailData, encoding: .utf8),
+              let password = String(data: passwordData, encoding: .utf8) else { return nil }
         return Credential(email: email, password: password)
     }
 }
@@ -47,8 +47,7 @@ private extension SessionService {
     func remove(key: String) {
         let query = [
           kSecClass: kSecClassGenericPassword,
-          kSecAttrAccount: key,
-          kSecValueData: Data()] as [String: Any]
+          kSecAttrAccount: key] as [String: Any]
         SecItemDelete(query as CFDictionary)
     }
     
@@ -56,7 +55,8 @@ private extension SessionService {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: key,
-            kSecReturnData: kCFBooleanTrue!] as [String: Any]
+            kSecReturnData: kCFBooleanTrue!,
+            kSecMatchLimit: kSecMatchLimitOne] as [String: Any]
         var dataTypeRef: AnyObject? = nil
         let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
         guard status == noErr else { return nil }

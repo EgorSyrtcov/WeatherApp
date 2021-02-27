@@ -9,6 +9,8 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
+    weak var delegate: AuthDelegate?
+    
     enum ButtonState {
         case loading
         case disabled
@@ -87,8 +89,24 @@ class SignUpViewController: UIViewController {
     @IBAction func registerActionButton() {
         loginButtonState = .loading
         
-        UserService.shared.singup(credential: Credential.init(email: emailField.text, password: passwordField.text)) { user in
-            
+        Dependencies.services.userService.singup(credential: Credential.init(email: emailField.text, password: passwordField.text)) { [weak self] user in
+            if user == nil {
+                self?.presentAlert()
+            } else {
+                self?.dismiss(animated: true, completion: { [weak self] in
+                    self?.delegate?.didSuccess()
+                })
+            }
         }
+    }
+    
+    private func presentAlert() {
+        let alert = UIAlertController(title: "Error", message: "Incorrect username or password", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    deinit {
+        print("Buy buy")
     }
 }

@@ -7,21 +7,27 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate: class {
+    func didLogout()
+}
+
 class MainViewController: UIViewController {
     
-    private var city: City? {
-        didSet {
-            setupData()
-        }
+    // MARK: - Constants
+    private struct Constants {
+        static let cityTableViewCell = "CityTableViewCell"
     }
     
-    // MARK: - Properties
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var weatherImage: UIImageView!
-    @IBOutlet weak var maxTempLabel: UILabel!
-    @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var feelLikeLabel: UILabel!
+    weak var delegate: MainViewControllerDelegate?
+    private var cities = [String]()
+    
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cityTableViewCell)
+        }
+    }
     
     // MARK: - View life cycle
     override func viewDidLoad() {
@@ -32,10 +38,13 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
-        WeatherService.shared.getWeather(city: "Minsk") { city in
-            self.city = city
+        DispatchQueue.global().async { [weak self] in
+            self?.cities = Dependencies.services.userService.user?.cities ?? []
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
         }
     }
     
@@ -48,20 +57,6 @@ class MainViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .done, target: self, action: #selector(signOutAction))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(addCityAction))
     }
-    
-    private func setupData() {
-        guard let city = city else { return }
-        cityLabel.text = city.name
-        weatherImage.image = UIImage(named: "\(city.weather[0].main)")
-        maxTempLabel.text = "Max \(city.main.tempMax)˚C"
-        minTempLabel.text = "Min \(city.main.tempMin)˚C"
-        tempLabel.text = "\(city.main.temp)˚C"
-        feelLikeLabel.text = "Feel like: \(city.main.feelsLike)˚C"
-    }
-    
-    @IBAction func refreshAction(_ sender: UIButton) {
-        print("REFRESH")
-    }
 }
 
 extension MainViewController {
@@ -71,16 +66,52 @@ extension MainViewController {
     }
     
     @objc func addCityAction() {
-        print("ADD CITY")
+        navigationController?.pushViewController(SearchViewController.loadFromNib(), animated: true)
     }
     
     // MARK: - UIAlertController
     private func presentAlert() {
         let alert = UIAlertController(title: "", message: "Are you sure you want to exit?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
-          print("Handle Yes logic here")
-          }))
+            Dependencies.services.userService.logout { [weak self] success in
+                guard success else { return }
+                self?.dismiss(animated: true) {
+                    self?.delegate?.didLogout()
+                }
+            }
+        }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cities.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cityTableViewCell,
+                                                 for: indexPath)
+        cell.textLabel?.text = cities[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let city = cities[indexPath.row]
+        let detailViewController = DetailViewController.loadFromNib()
+        detailViewController.getUpdate(city)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let city = cities[indexPath.row]
+            Dependencies.services.userService.removeCity(city)
+            self.cities.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

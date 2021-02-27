@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -26,14 +27,14 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kc1-qY-qCl" customClass="CustomTextField" customModule="Weater" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kc1-qY-qCl" customClass="CustomTextField" customModule="WeatherApp" customModuleProvider="target">
                     <rect key="frame" x="32" y="261.5" width="350" height="73"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="73" id="ndB-le-FFW"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-fj-cHE" customClass="CustomTextField" customModule="Weater" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-fj-cHE" customClass="CustomTextField" customModule="WeatherApp" customModuleProvider="target">
                     <rect key="frame" x="32" y="359.5" width="350" height="73"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
@@ -51,7 +52,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
-                        <action selector="registerActionButton:" destination="-1" eventType="touchUpInside" id="Xhh-uB-Lhq"/>
+                        <action selector="registerActionButton" destination="-2" eventType="touchUpInside" id="eLR-ep-vQj"/>
                     </connections>
                 </button>
             </subviews>

@@ -9,6 +9,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    weak var delegate: AuthDelegate?
+    
     enum ButtonState {
         case loading
         case disabled
@@ -63,8 +65,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clearTextFields()
     }
     
     private func setupView() {
@@ -91,6 +97,11 @@ class LoginViewController: UIViewController {
         loginButtonState = emailField.text.isValidString(for: .email) && passwordField.text.isValidString(for: .password) ? .active : .disabled
     }
     
+    private func clearTextFields() {
+        emailField.text = ""
+        passwordField.text = ""
+    }
+    
     private func setupTitle(with text: String, textColor: UIColor = .blue, fontSize: CGFloat = 18) {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = false
@@ -104,23 +115,33 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginAction(_ sender: UIButton) {
         
-        UserService.shared.login(credential: Credential(email: emailField.text, password: passwordField.text)) { [weak self] (user) in
+        Dependencies.services.userService.login(credential: Credential(email: emailField.text, password: passwordField.text)) { [weak self] (user) in
             
             if user == nil {
                 self?.presentAlert()
             } else {
-                self?.navigationController?.pushViewController(MainViewController.loadFromNib(), animated: true)
+                self?.dismiss(animated: true, completion: {
+                    self?.delegate?.didSuccess()
+                })
             }
         }
     }
     
     @IBAction func signUpAction(_ sender: UIButton) {
-        navigationController?.pushViewController(SignUpViewController.loadFromNib(), animated: true)
+        let signUpViewController = SignUpViewController.loadFromNib()
+        signUpViewController.delegate = self
+        navigationController?.pushViewController(signUpViewController, animated: true)
     }
     
     private func presentAlert() {
         let alert = UIAlertController(title: "Error", message: "Incorrect username or password", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension LoginViewController: AuthDelegate {
+    func didSuccess() {
+        self.delegate?.didSuccess()
     }
 }

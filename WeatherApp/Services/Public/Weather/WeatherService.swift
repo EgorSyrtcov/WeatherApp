@@ -7,9 +7,7 @@
 
 import Foundation
 
-final class WeatherService {
-    static let shared = WeatherService()
-    
+final class WeatherService {    
     private let appId = "b86556e258b3dbb75b7f39e114f65b72"
     
     func getWeather(city: String, completion: @escaping(City?)->()) {

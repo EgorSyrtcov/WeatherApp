@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController" customModule="WeatherApp" customModuleProvider="target">
+            <connections>
+                <outlet property="cityLabel" destination="KHp-AV-PvF" id="X2n-Fg-zhM"/>
+                <outlet property="feelLikeLabel" destination="vka-fd-Clj" id="RiS-zO-BLp"/>
+                <outlet property="maxTempLabel" destination="vyv-gT-4hV" id="8jL-Xl-H2E"/>
+                <outlet property="minTempLabel" destination="z0s-oK-hSP" id="wQg-fF-6hR"/>
+                <outlet property="tempLabel" destination="xax-UO-gcy" id="Ys6-XZ-xkD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weatherImage" destination="dM4-0k-JpB" id="nLd-YW-cJm"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="IFt-6h-CwQ">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JSl-hm-ddR">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City: -------" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHp-AV-PvF">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="45" id="5iF-ub-hvh"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="duu-0X-Cr3">
+                            <rect key="frame" x="0.0" y="60" width="414" height="310"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Refresh" translatesAutoresizingMaskIntoConstraints="NO" id="dM4-0k-JpB">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="310"/>
+                                </imageView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Mll-i0-FhR">
+                            <rect key="frame" x="0.0" y="385" width="414" height="36.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max ˚C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyv-gT-4hV">
+                                    <rect key="frame" x="0.0" y="0.0" width="190" height="36.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min ˚C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0s-oK-hSP">
+                                    <rect key="frame" x="210" y="0.0" width="204" height="36.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiK-iu-Co6">
+                            <rect key="frame" x="0.0" y="436.5" width="414" height="321"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--˚C" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="xax-UO-gcy">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="321"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="100"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02U-Lo-Sib">
+                            <rect key="frame" x="0.0" y="772.5" width="414" height="45.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feel like: --˚C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vka-fd-Clj">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="45.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="45.5" id="Une-qC-Wug"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemTealColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="IFt-6h-CwQ" secondAttribute="trailing" id="DkV-h7-G2t"/>
+                <constraint firstItem="IFt-6h-CwQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iqQ-0a-k3S"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="IFt-6h-CwQ" secondAttribute="bottom" id="vrP-hf-I5b"/>
+                <constraint firstItem="IFt-6h-CwQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="yyx-3H-igM"/>
+            </constraints>
+            <point key="canvasLocation" x="142" y="119"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Refresh" width="256" height="256"/>
+        <systemColor name="systemTealColor">
+            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
