@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="CarosSoftMedium.otf">
+            <string>CarosSoftMedium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="WeatherApp" customModuleProvider="target">
+            <connections>
+                <outlet property="emailField" destination="YZd-kT-TYU" id="4Zb-ar-U3t"/>
+                <outlet property="loginButton" destination="N23-fC-024" id="LUR-SF-37x"/>
+                <outlet property="passwordField" destination="bTa-Wl-Hxj" id="WtI-hC-X4o"/>
+                <outlet property="signInButton" destination="ckc-sT-cxy" id="6pN-ZL-KQJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZd-kT-TYU" customClass="CustomTextField" customModule="Weater" customModuleProvider="target">
+                    <rect key="frame" x="32" y="261.5" width="350" height="73"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="73" id="Le0-jQ-1oN"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bTa-Wl-Hxj" customClass="CustomTextField" customModule="Weater" customModuleProvider="target">
+                    <rect key="frame" x="32" y="359.5" width="350" height="73"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N23-fC-024">
+                    <rect key="frame" x="72" y="497.5" width="270" height="44"/>
+                    <color key="backgroundColor" systemColor="linkColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="r8R-Dh-vPM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="CarosSoftMedium" family="Caros Soft" pointSize="16"/>
+                    <state key="normal" title="Login">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="loginAction:" destination="-1" eventType="touchUpInside" id="p3b-zX-b7a"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckc-sT-cxy">
+                    <rect key="frame" x="72" y="551.5" width="270" height="44"/>
+                    <color key="backgroundColor" systemColor="linkColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="vyw-zt-fey"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="CarosSoftMedium" family="Caros Soft" pointSize="16"/>
+                    <state key="normal" title="Don't have an account?">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="signUpAction:" destination="-1" eventType="touchUpInside" id="B6P-01-PaN"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="bTa-Wl-Hxj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="5dw-gB-eAO"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bTa-Wl-Hxj" secondAttribute="trailing" constant="32" id="Bzz-SP-sFq"/>
+                <constraint firstItem="ckc-sT-cxy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="72" id="Dny-sU-Pxn"/>
+                <constraint firstItem="ckc-sT-cxy" firstAttribute="top" secondItem="N23-fC-024" secondAttribute="bottom" constant="10" id="Fqf-b0-cQ3"/>
+                <constraint firstItem="bTa-Wl-Hxj" firstAttribute="top" secondItem="YZd-kT-TYU" secondAttribute="bottom" constant="25" id="KdO-FD-GID"/>
+                <constraint firstItem="N23-fC-024" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="72" id="PBA-gO-395"/>
+                <constraint firstItem="N23-fC-024" firstAttribute="top" secondItem="bTa-Wl-Hxj" secondAttribute="bottom" constant="65" id="QVs-Bg-zMo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="YZd-kT-TYU" secondAttribute="trailing" constant="32" id="T0z-GP-C50"/>
+                <constraint firstItem="YZd-kT-TYU" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-150" id="UP3-ow-WE6"/>
+                <constraint firstItem="bTa-Wl-Hxj" firstAttribute="height" secondItem="YZd-kT-TYU" secondAttribute="height" id="XqR-XZ-SlA"/>
+                <constraint firstItem="YZd-kT-TYU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="Z5w-5M-r1Y"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ckc-sT-cxy" secondAttribute="trailing" constant="72" id="nwN-Oe-CEr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="N23-fC-024" secondAttribute="trailing" constant="72" id="oza-pq-enl"/>
+            </constraints>
+            <point key="canvasLocation" x="142" y="90"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -12,52 +12,48 @@ import FirebaseAuth
 final class UserService {
     static let shared = UserService()
     
-    var isLogged: Bool {
-        return userDefauls.bool(forKey: UserDefaults.Key.existing.rawValue)
-    }
-    
     private let firestoreService = FirestoreService()
-    private let userDefauls = UserDefaults.standard
-    
+    private let sessionService = SessionService()
     private(set) var user: User? = nil
-    
-    init() {
-        let defaults: [String: Any] = [
-            UserDefaults.Key.existing.rawValue: false
-        ]
-        userDefauls.register(defaults: defaults)
-    }
 }
 
 extension UserService {
     
-    func login(email: String, password: String, completion: @escaping(User?)->()) {
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            guard error == nil,
-                  let result = result else {
-                self.logout()
+    func autoLogin(completion: @escaping(User?)->()) {
+        guard let credential = sessionService.readCredential() else {
+            return completion(nil)
+        }
+        login(credential: credential) { user in
+            completion(user)
+        }
+    }
+    
+    func login(credential: Credential, completion: @escaping(User?)->()) {
+        Auth.auth().signIn(withEmail: credential.email,
+                           password: credential.password) { (result, error) in
+            guard error == nil, let result = result else {
                 return completion(nil)
             }
             self.firestoreService.fetchUser(by: result.user.uid) { user in
                 self.user = user
-                self.login()
+                self.sessionService.save(credential: credential)
                 completion(user)
             }
         }
     }
     
-    func singup(email: String, password: String, completion: @escaping(User?)->()) {
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+    func singup(credential: Credential, completion: @escaping(User?)->()) {
+        Auth.auth().createUser(withEmail: credential.email,
+                               password: credential.password) { (result, error) in
             guard error == nil,
                   let result = result else {
-                self.logout()
                 return completion(nil)
             }
-            self.firestoreService.createUser(id: result.user.uid, email: result.user.email)
+            self.firestoreService.createUser(id: result.user.uid, email: credential.email)
             self.user = User(id: result.user.uid,
-                             email: result.user.email,
+                             email: credential.email,
                              cities: [])
-            self.login()
+            self.sessionService.save(credential: credential)
             completion(self.user)
         }
     }
@@ -66,24 +62,25 @@ extension UserService {
         do {
             try Auth.auth().signOut()
             user = nil
-            logout()
+            self.sessionService.clearCredential()
             completion(true)
         } catch { completion(false) }
     }
 }
 
-private extension UserService {
-    func login() {
-        userDefauls.setValue(true, forKey: UserDefaults.Key.existing.rawValue)
-    }
 
-    func logout() {
-        userDefauls.setValue(false, forKey: UserDefaults.Key.existing.rawValue)
+extension UserService {
+    func addCity(_ city: String) {
+        guard let user = user else { return }
+        guard !user.cities.map({ $0.lowercased() }).contains(city.lowercased()) else { return }
+        user.addCity(city)
+        firestoreService.updateCities(id: user.id, cities: user.cities)
     }
-}
-
-private extension UserDefaults {
-    enum Key: String {
-        case existing
+    
+    func removeCity(_ city: String) {
+        guard let user = user else { return }
+        guard user.cities.map({ $0.lowercased() }).contains(city.lowercased()) else { return }
+        user.removeCity(city)
+        firestoreService.updateCities(id: user.id, cities: user.cities)
     }
 }

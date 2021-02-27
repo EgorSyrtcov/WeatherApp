@@ -11,39 +11,19 @@ import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    private let splashViewController = SplashViewController.loadFromNib()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         initializeFirebase()
-        
-        if UserService.shared.isLogged {
-            print("Show spinner")
-            UserService.shared.login(email: "test2@inbox.ru", password: "12345678") { user in
-                guard let _ = user else {
-                    print("Show login screen")
-                    return
-                }
-                print("Show main screen")
+        initializeWindow(windowScene)
+        handleApplicationFlow { state in
+            switch state {
+            case .login: self.showAuthFlow()
+            case .main: self.showMainFlow()
             }
-        } else {
-            print("Show login screen")
         }
-        
-//        UserService.shared.login(email: "test2@inbox.ru", password: "12345678") { user in
-//            print(user)
-//        }
-        
-                
-        
-//        print(UserService.shared.isLogged)
-        
-//        let navVC = UINavigationController(rootViewController: Login())
-//
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.windowScene = windowScene
-//
-//        window?.rootViewController = navVC
-//        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -59,13 +39,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        UserDefaults.standard.synchronize()
     }
-
 }
 
 private extension SceneDelegate {
     func initializeFirebase() {
         FirebaseApp.configure()
+    }
+    
+    func initializeWindow(_ scene: UIWindowScene) {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = scene
+        let navController = UINavigationController(rootViewController: SplashViewController.loadFromNib())
+        window?.rootViewController = navController
+        window?.makeKeyAndVisible()
+    }
+    
+    func handleApplicationFlow(completion: @escaping(AppState)->()) {
+        UserService.shared.autoLogin { user in
+            completion(user == nil ? .login : .main)
+        }
+    }
+}
+
+private extension SceneDelegate {
+    func showAuthFlow() {
+        let navController = UINavigationController(rootViewController: LoginViewController())
+        navController.modalPresentationStyle = .overFullScreen
+        splashViewController.present(navController, animated: true)
+    }
+    
+    func showMainFlow() {
+        let navController = UINavigationController(rootViewController: MainViewController.loadFromNib())
+        navController.modalPresentationStyle = .overFullScreen
+        splashViewController.present(navController, animated: true)
     }
 }
