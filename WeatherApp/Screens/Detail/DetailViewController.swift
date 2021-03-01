@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    var cityString = String()
+    private var cityReguest: String?
     
     // MARK: - Properties
     @IBOutlet weak var cityLabel: UILabel!
@@ -29,7 +29,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Dependencies.services.weatherService.getWeather(city: cityString) { [weak self] city in
+        guard let cityReguest = cityReguest else { return }
+        Dependencies.services.weatherService.getWeather(city: cityReguest) { [weak self] city in
             self?.city = city
         }
     }
@@ -44,8 +45,8 @@ class DetailViewController: UIViewController {
         feelLikeLabel.text = "Feel like: \(city.main.feelsLike)˚C"
     }
     
-    func getUpdate(_ cityString: String) {
-        self.cityString = cityString
+    func configurate(with city: String) {
+        self.cityReguest = city
     }
 }
 

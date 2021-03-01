@@ -63,6 +63,11 @@ class SignUpViewController: UIViewController {
         setupView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clearTextFields()
+    }
+    
     private func setupView() {
         setupTitle(with: "Register")
         emailField.setup(with: "Email", message: "enter your email")
@@ -80,6 +85,11 @@ class SignUpViewController: UIViewController {
     
     private func setupTitle(with text: String) {
         navigationItem.title = text
+    }
+    
+    private func clearTextFields() {
+        emailField.text = ""
+        passwordField.text = ""
     }
     
     private func textFieldDidBeginEditing() {
@@ -104,9 +114,5 @@ class SignUpViewController: UIViewController {
         let alert = UIAlertController(title: "Error", message: "Incorrect username or password", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    deinit {
-        print("Buy buy")
     }
 }

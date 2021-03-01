@@ -43,5 +43,4 @@ final class FirestoreService {
                       "cities": cities
             ], merge: true)
     }
-    
 }

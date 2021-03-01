@@ -33,14 +33,15 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTitle(with: "Wellcome")
+        setupTitle(with: "Welcome")
         setupNavigationController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             self?.cities = Dependencies.services.userService.user?.cities ?? []
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
@@ -102,7 +103,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let city = cities[indexPath.row]
         let detailViewController = DetailViewController.loadFromNib()
-        detailViewController.getUpdate(city)
+        detailViewController.configurate(with: city)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     

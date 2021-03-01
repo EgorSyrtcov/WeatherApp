@@ -42,21 +42,20 @@ extension AppLauncher {
     func start(from window: UIWindow?) {
         window?.rootViewController = rootViewController
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.handleApplicationFlow { state in
-                switch state {
-                case .login: self.startLoginFlow()
-                case .main: self.startMainFlow()
-                }
-            }
+            self.startApplicationFlow()
         }
         window?.makeKeyAndVisible()
     }
 }
 
 private extension AppLauncher {
-    func handleApplicationFlow(completion: @escaping(AppState)->()) {
+    func startApplicationFlow() {
         Dependencies.services.userService.autoLogin { user in
-            completion(user == nil ? .login : .main)
+            guard let _ = user else {
+                self.startLoginFlow()
+                return
+            }
+            self.startMainFlow()
         }
     }
     
