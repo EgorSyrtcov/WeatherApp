@@ -29,6 +29,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordField: CustomTextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     private let loginSpinner: UIActivityIndicatorView = {
         let loginSpinner = UIActivityIndicatorView(style: .medium)
@@ -66,11 +67,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        registerForKeyboardNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         clearTextFields()
+    }
+    
+    deinit {
+        removeForKeyboardNotification()
     }
     
     private func setupView() {
@@ -95,6 +101,16 @@ class LoginViewController: UIViewController {
     
     private func textFieldDidBeginEditing() {
         loginButtonState = emailField.text.isValidString(for: .email) && passwordField.text.isValidString(for: .password) ? .active : .disabled
+    }
+    
+    private func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func clearTextFields() {
@@ -143,5 +159,20 @@ class LoginViewController: UIViewController {
 extension LoginViewController: AuthDelegate {
     func didSuccess() {
         self.delegate?.didSuccess()
+    }
+}
+
+extension LoginViewController {
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else {
+                return
+            }
+            let keyboardFrame = scrollView.convert(keyboardFrameValue.cgRectValue, from: nil)
+            scrollView.contentOffset = CGPoint(x:0, y:keyboardFrame.size.height)
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        scrollView.contentOffset = .zero
     }
 }

@@ -38,7 +38,6 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         DispatchQueue.global(qos: .background).async { [weak self] in
