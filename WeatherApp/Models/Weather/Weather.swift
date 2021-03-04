@@ -19,5 +19,4 @@ struct Weather: Decodable {
         case description
         case icon
     }
-    
 }

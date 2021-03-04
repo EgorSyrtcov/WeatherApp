@@ -8,15 +8,10 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="CarosSoftMedium.otf">
-            <string>CarosSoftMedium</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchViewController" customModule="WeatherApp" customModuleProvider="target">
             <connections>
-                <outlet property="addCityButton" destination="ddl-pD-u55" id="TWl-h5-cgM"/>
+                <outlet property="tableView" destination="kKl-70-UiO" id="lTG-OF-Ydo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,37 +20,23 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddl-pD-u55">
-                    <rect key="frame" x="72" y="426" width="270" height="44"/>
-                    <color key="backgroundColor" systemColor="linkColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="7M3-Ln-OXg"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="CarosSoftMedium" family="Caros Soft" pointSize="16"/>
-                    <state key="normal" title="Add city">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                    <connections>
-                        <action selector="addCityButtonAction:" destination="-1" eventType="touchUpInside" id="ohC-dU-Z8c"/>
-                        <action selector="registerActionButton" destination="-2" eventType="touchUpInside" id="3Ho-2d-eDg"/>
-                    </connections>
-                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kKl-70-UiO">
+                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="ddl-pD-u55" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="O5q-lB-pl7"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ddl-pD-u55" secondAttribute="trailing" constant="72" id="Qzw-zA-MOj"/>
-                <constraint firstItem="ddl-pD-u55" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="72" id="hno-1i-UUm"/>
-                <constraint firstItem="ddl-pD-u55" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xmo-lD-fjM"/>
+                <constraint firstItem="kKl-70-UiO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="9e5-W3-tBl"/>
+                <constraint firstAttribute="bottom" secondItem="kKl-70-UiO" secondAttribute="bottom" id="Lkq-6L-JbC"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kKl-70-UiO" secondAttribute="trailing" id="R5F-lS-K5b"/>
+                <constraint firstItem="kKl-70-UiO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Xc0-aP-9cw"/>
             </constraints>
             <point key="canvasLocation" x="142" y="67"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
