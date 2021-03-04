@@ -43,7 +43,7 @@ class SearchViewController: UIViewController {
     
     @IBAction func addCityButtonAction(_ sender: UIButton) {
         guard let city = city else { return }
-        
+
         Dependencies.services.weatherService.getWeather(city: city) { [weak self] city in
             guard let cityString = self?.city else { return }
             if city != nil {
@@ -60,11 +60,28 @@ class SearchViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    private func presentAlertForEnterText() {
+        let alert = UIAlertController(title: "Error", message: "Enter the name of the city in English", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension SearchViewController: UISearchResultsUpdating{
     
     func updateSearchResults(for searchController: UISearchController) {
-        city = searchController.searchBar.text
+        
+        guard let text = searchController.searchBar.text else { return }
+        let ruCharacters = "йцукенгшщзхъфывапролджэёячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЁЯЧСМИТЬБЮ"
+        
+        text.forEach { (char) in
+            if (ruCharacters.contains(char)) {
+                presentAlertForEnterText()
+                searchController.searchBar.text?.remove(at: text.firstIndex(of: char)!)
+            }
+            city = text.capitalizingFirstLetter()
+        }
     }
 }
