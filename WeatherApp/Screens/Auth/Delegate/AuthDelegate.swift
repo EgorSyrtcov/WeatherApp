@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol AuthDelegate: class {
+protocol AuthDelegate: AnyObject {
     func didSuccess()
 }

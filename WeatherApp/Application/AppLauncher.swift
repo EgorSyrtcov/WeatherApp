@@ -10,6 +10,12 @@ import UIKit
 final class AppLauncher {
     
     private let rootViewController = SplashViewController.loadFromNib()
+    
+    private var _loginNavController: UINavigationController? = nil
+    private let _loginViewController = LoginViewController.loadFromNib()
+    
+    private var _mainNavController: UINavigationController? = nil
+    private let _mainViewController = MainViewController.loadFromNib()
 
     private lazy var loginNavController: UINavigationController = {
         guard let navController = _loginNavController else {
@@ -31,11 +37,6 @@ final class AppLauncher {
         return navController
     }()
 
-    private var _loginNavController: UINavigationController? = nil
-    private let _loginViewController = LoginViewController.loadFromNib()
-
-    private var _mainNavController: UINavigationController? = nil
-    private let _mainViewController = MainViewController.loadFromNib()
 }
 
 extension AppLauncher {
